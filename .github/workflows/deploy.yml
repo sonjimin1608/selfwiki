@@ -1,0 +1,93 @@
+# selfwiki 사이트 배포. 이 파일은 selfwiki publish가 자동으로 만들고 덮어씁니다.
+# 순서: Quartz 받기 → 버전 확인 → 사이트 설정 덮어쓰기 → content 연결 → 빌드 → GitHub Pages 배포
+name: Deploy selfwiki site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 기본 권한은 없음. 잡마다 필요한 것만: build 는 읽기만, Pages 쓰기·OIDC 토큰은 deploy 잡에만
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  QUARTZ_VERSION: "v4.5.2"
+  QUARTZ_REPO: https://github.com/jackyzha0/quartz.git
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout site repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: site
+          persist-credentials: false
+
+      - name: Setup Node 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Clone Quartz
+        run: git clone --depth 1 --branch "$QUARTZ_VERSION" "$QUARTZ_REPO" quartz
+
+      - name: Check Quartz version
+        run: |
+          actual="v$(node -p "require('./quartz/package.json').version")"
+          if [ "$actual" != "$QUARTZ_VERSION" ]; then
+            echo "::error::Quartz version mismatch: expected $QUARTZ_VERSION, got $actual"
+            exit 1
+          fi
+          echo "Quartz $actual"
+
+      - name: Overlay selfwiki theme and content
+        run: |
+          set -euo pipefail
+          cp site/quartz.config.ts quartz/quartz.config.ts
+          cp site/quartz.layout.ts quartz/quartz.layout.ts
+          mkdir -p quartz/quartz/components/selfwiki
+          cp site/components/Infobox.tsx quartz/quartz/components/selfwiki/Infobox.tsx
+          cp site/components/Categories.tsx quartz/quartz/components/selfwiki/Categories.tsx
+          cp site/plugins/selfwiki.ts quartz/quartz/plugins/transformers/selfwiki.ts
+          cp site/styles/custom.scss quartz/quartz/styles/custom.scss
+          cp site/i18n/ko-KR.ts quartz/quartz/i18n/locales/ko-KR.ts
+          if [ -f site/static/icon.png ]; then
+            cp site/static/icon.png quartz/quartz/static/icon.png
+          fi
+          rm -rf quartz/content
+          cp -R site/content quartz/content
+
+      - name: Install dependencies
+        working-directory: quartz
+        run: npm ci --no-audit --no-fund
+
+      - name: Build
+        working-directory: quartz
+        run: npx quartz build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: quartz/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

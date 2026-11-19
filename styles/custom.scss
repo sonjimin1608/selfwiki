@@ -1,0 +1,286 @@
+@use "./base.scss";
+
+// selfwiki 종이(paper) 테마. 이 파일은 selfwiki publish가 자동으로 만들고 덮어씁니다.
+// 배포 워크플로가 이 파일을 quartz/styles/custom.scss 에 덮어씁니다.
+//
+// Quartz는 이 파일 뒤에 :root { 색·글꼴 변수 }를 붙이므로,
+// 여기서 변수를 덮으려면 :root:root 로 명시도를 올려야 합니다.
+
+$mobile: "(max-width: 800px)";
+
+// ── 추가 색 토큰과 글꼴 ─────────────────────────────────────────
+:root:root {
+  --sw-infobox-head-bg: #2f4fb3;
+  --sw-infobox-head-fg: #ffffff;
+  --sw-infobox-key-bg: #f2f0ea;
+  --sw-infobox-bg: #ffffff;
+  --sw-category-bg: #f2f0ea;
+  --sw-warn: #9a5b00;
+  --sw-warn-bg: rgba(196, 127, 23, 0.08);
+
+  --titleFont:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  --headerFont: var(--titleFont);
+  --bodyFont: var(--titleFont);
+  --codeFont:
+    D2Coding, ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK KR", monospace;
+}
+
+:root:root[saved-theme="dark"] {
+  --sw-infobox-head-bg: #24305c;
+  --sw-infobox-head-fg: #f1efea;
+  --sw-infobox-key-bg: #1e2026;
+  --sw-infobox-bg: #191a1f;
+  --sw-category-bg: #1e2026;
+  --sw-warn: #e0a54a;
+  --sw-warn-bg: rgba(224, 165, 74, 0.1);
+}
+
+// ── 본문 폭 ───────────────────────────────────────────────────
+// 정보상자(머리 영역 안)가 본문 글줄의 오른쪽 끝에 맞도록 머리·본문·바닥을 같은 폭으로 묶습니다.
+.page .center {
+  & > .page-header,
+  & > article,
+  & > hr,
+  & > .page-footer {
+    max-width: 46rem;
+  }
+
+  & > hr {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+// 분류 페이지 목록의 분류 표시: 해시태그처럼 보이지 않게 "#"을 뺍니다.
+a.internal.tag-link::before {
+  content: none;
+}
+
+// ── 본문 글자 ─────────────────────────────────────────────────
+.page article {
+  font-size: 1rem;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+
+  p,
+  li {
+    line-height: 1.75;
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    border-bottom: 1px solid var(--lightgray);
+    padding-bottom: 0.3rem;
+    margin: 2.25rem 0 1rem;
+    // 정보상자 옆을 지날 때 밑줄이 상자 밑으로 들어가지 않게
+    display: flow-root;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 1.75rem 0 0.75rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+h1.article-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.25rem;
+}
+
+// ── 링크 ──────────────────────────────────────────────────────
+a.internal:hover {
+  color: var(--tertiary);
+}
+
+// 끊긴 링크(없는 문서): 링크가 아닌 일반 글자처럼
+a.internal.broken {
+  color: inherit;
+  background: none;
+  text-decoration: none;
+  opacity: 1;
+  font-weight: inherit;
+  cursor: text;
+  pointer-events: none;
+}
+
+// ── 정보상자 ───────────────────────────────────────────────────
+aside.sw-infobox {
+  float: right;
+  clear: right;
+  width: 300px;
+  max-width: 100%;
+  margin: 0 0 1rem 1.5rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--sw-infobox-bg);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  box-sizing: border-box;
+
+  table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+  }
+
+  caption {
+    background: var(--sw-infobox-head-bg);
+    color: var(--sw-infobox-head-fg);
+    font-family: var(--headerFont);
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  tbody {
+    line-height: 1.5;
+  }
+
+  tr {
+    border-bottom: none;
+    border-top: 1px solid var(--lightgray);
+  }
+
+  th {
+    width: 34%;
+    background: var(--sw-infobox-key-bg);
+    color: var(--dark);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    vertical-align: top;
+    border-bottom: none;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  td {
+    padding: 0.4rem 0.6rem;
+    color: var(--darkgray);
+    vertical-align: top;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  a.external {
+    font-weight: 500;
+  }
+
+  @media all and #{$mobile} {
+    float: none;
+    width: 100%;
+    margin: 0 0 1.5rem;
+  }
+}
+
+// ── 분류 줄 ───────────────────────────────────────────────────
+nav.sw-categories {
+  margin: 2rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  background: var(--sw-category-bg);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+
+  .sw-categories-label {
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .sw-categories-sep {
+    color: var(--gray);
+  }
+
+  a.sw-category {
+    background: none;
+    padding: 0;
+  }
+}
+
+// ── 각주 ──────────────────────────────────────────────────────
+sup a[data-footnote-ref] {
+  font-size: 0.75em;
+  text-decoration: none;
+  color: var(--secondary);
+  background: none;
+  padding: 0;
+
+  &::before {
+    content: "[";
+  }
+  &::after {
+    content: "]";
+  }
+}
+
+.page article section[data-footnotes] {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--lightgray);
+  font-size: 0.875rem;
+  color: var(--darkgray);
+  clear: both;
+
+  // 기본 제목("Footnotes")은 숨기고 "각주"로 표시
+  & > h2 {
+    font-size: 0;
+    border: 0;
+    padding: 0;
+    margin: 1rem 0 0.5rem;
+
+    &::before {
+      content: "각주";
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    & > a {
+      display: none;
+    }
+  }
+
+  ol {
+    padding-left: 1.5rem;
+  }
+
+  li p {
+    margin: 0.2rem 0;
+    line-height: 1.6;
+  }
+}
+
+// ── 원본 불일치 상자 ────────────────────────────────────────────
+.callout[data-callout="warning"] {
+  --color: var(--sw-warn);
+  --border: var(--sw-warn);
+  --bg: var(--sw-warn-bg);
+  border-left-width: 4px;
+}

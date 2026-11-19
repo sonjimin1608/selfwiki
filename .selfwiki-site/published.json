@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "docs": [
+    {
+      "path": "wiki/CANVAS AI 에이전트.md",
+      "sha256": "2a0bfbd37d357d92a5a2c0ad64fc9d127ecf915b65c21edf6d04bd4b4858bf0f"
+    },
+    {
+      "path": "wiki/CANVAS 구조 개편.md",
+      "sha256": "8575987b5fa6ecd0d410da459e31cd17c16a3bf4b170a28599a76eecc9e148d6"
+    },
+    {
+      "path": "wiki/CANVAS 백엔드 개발.md",
+      "sha256": "ac4c0ef7b64583df57de4ac9fdcd339068b417655bd8953ccbc0a8bd8dba737f"
+    },
+    {
+      "path": "wiki/Pin-Eat.md",
+      "sha256": "4e5a5699e888d0cca757590100cde83a1c7443b01b4319438892af94c1c9761d"
+    },
+    {
+      "path": "wiki/Son Jimin.md",
+      "sha256": "46567e257c9326c2d6f89997fd8a3d34386fa4865057f13ea84e823961b7ad13"
+    },
+    {
+      "path": "wiki/Upbit.md",
+      "sha256": "04786c636ba82d1ea363c137cdba27c2304a73de0aae8e9d39b8fe653ab75dce"
+    },
+    {
+      "path": "wiki/amori-legal.md",
+      "sha256": "0229d06666bfb8ea1cc2decea88a5914404d2ddafb25226dd551b0d3f87af168"
+    },
+    {
+      "path": "wiki/api.md",
+      "sha256": "7cb577ca85049331fd22d3d2790601a3647ad7a96e4a376d7f422ce97a25de63"
+    },
+    {
+      "path": "wiki/count.md",
+      "sha256": "7e52a2ac78f8b072bce19d6e0b3f4d71dc2024b38b88ba7309136534c927c909"
+    },
+    {
+      "path": "wiki/directon-2026.md",
+      "sha256": "164f526025e4ee349d3a8e47a307ead3d61344ae16ef3c1c675dd34a6617b906"
+    },
+    {
+      "path": "wiki/jamie1608.md",
+      "sha256": "406f4e8d09d5b68ee85271967b3c597793b685a6f5469d5fc5ca1a4a0f6d4096"
+    },
+    {
+      "path": "wiki/kospi-k-rating-data.md",
+      "sha256": "99da4c82bf46e7d0bb0e04cf1ebf875d2b31d168068a28fdb3f21828cb9ba065"
+    },
+    {
+      "path": "wiki/maskon.md",
+      "sha256": "fd1fd536fb55c3d63a2a586d57a1b3b83f73e9cb97d5d409993a82c735571b15"
+    },
+    {
+      "path": "wiki/nook.md",
+      "sha256": "165473df18ce06fe9e4d070776c3fc7935b5ffbc9d1e295ff03a46548cea1722"
+    },
+    {
+      "path": "wiki/shopify-bundle-builder.md",
+      "sha256": "e461c6e1aab18a8aecdac98cd61784b7631d01b01aa1df22076606ac47aa022d"
+    },
+    {
+      "path": "wiki/sonjimin1608.github.io.md",
+      "sha256": "3a7431af8ea41cd6f9cc93988b8df18ff63a7f2f756f29c34652e536ad82a59d"
+    },
+    {
+      "path": "wiki/studio.md",
+      "sha256": "58d70fc34435a8462728a81f4104495e15b7d83e63e8bca73804c53e6454231a"
+    }
+  ]
+}
